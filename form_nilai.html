@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Form Nilai</title>
+        <style>
+            .error {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <?php
+        // Inisialisasi variabel dengan nilai bebas/default
+        $nama_mhsw = "Budi Santoso";
+        $nilai_akhir = "85";
+        $errNama = "";
+        $sukses = false;
+
+        // Cek apakah form sudah disubmit dengan metode POST
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (empty($_POST["nama_mhsw"])) {
+                $errNama = "Nama Mahasiswa tidak boleh kosong";
+            } else {
+                $nama_mhsw = htmlspecialchars($_POST["nama_mhsw"]);
+            }
+
+            if (!empty($_POST["nilai_akhir"])) {
+                $nilai_akhir = htmlspecialchars($_POST["nilai_akhir"]);
+            }
+
+            if (empty($errNama)) {
+                $sukses = true;
+            }
+        }
+        ?>
+
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+            <label for="nama">Nama Mahasiswa:</label><span class="error">*</span>
+            <input type="text" name="nama_mhsw" value="<?php echo $nama_mhsw; ?>">
+            <span class="error"><?php echo $errNama; ?></span><br><br>
+
+            <label for="nilai_akhir">Nilai Akhir:</label><span class="error">*</span>
+            <input type="text" name="nilai_akhir" value="<?php echo $nilai_akhir; ?>"><br><br>
+
+            <span class="error">* wajib diisi</span><br><br>
+            <input type="submit" value="Kirim">
+        </form>
+
+        <?php
+        // Tampilkan data jika sudah dikirim dan tidak ada error
+        if ($sukses) {
+            echo "<h3>Data Nilai Mahasiswa</h3>";
+            echo "Nama Mahasiswa: " . $nama_mhsw . "<br>";
+            echo "Nilai Akhir: " . $nilai_akhir . "<br>";
+        }
+        ?>
+    </body>
+</html>
